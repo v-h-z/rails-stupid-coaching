@@ -1,7 +1,12 @@
-require 'test_helper'
+# test/application_system_test_case.rb
+require "test_helper"
 
-class QuestionsControllerTest < ActionDispatch::IntegrationTest
-  # test "the truth" do
-  #   assert true
-  # end
+class ApplicationSystemTestCase < ActionDispatch::SystemTestCase
+  Capybara.register_driver(:headless_chrome) do |app|
+    capabilities = Selenium::WebDriver::Remote::Capabilities.chrome \
+      chromeOptions: { args: %w[headless disable-gpu window-size=1280x760] }
+    Capybara::Selenium::Driver.new app,
+      browser: :chrome, desired_capabilities: capabilities
+  end
+  driven_by :selenium, using: :headless_chrome
 end
